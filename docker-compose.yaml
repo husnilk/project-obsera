@@ -1,0 +1,51 @@
+services:
+  web_obsera:
+    build: ./php8
+    container_name: web-obsera
+    stdin_open: true
+    tty: true
+    ports:
+      - "8000:80"
+    volumes:
+      - ./public_html:/var/www/html
+    depends_on:
+      - mysql8
+    networks:
+      - app-network
+
+  web_apiteknik:
+    build: ./php8
+    container_name: web-apiteknik
+    stdin_open: true
+    tty: true
+    ports:
+      - "8001:80"
+    volumes:
+      - ./apiteknik/public:/var/www/html
+    depends_on:
+      - mysql8
+    networks:
+      - app-network
+
+  mysql8:
+    image: mysql:8.0
+    container_name: db-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3308:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+    
+networks:
+  app-network:
+    driver: bridge
+
