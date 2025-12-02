@@ -7,21 +7,21 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./public_html:/var/www/html
+      - ./obsera/public_html:/var/www/html
     depends_on:
       - mysql8
     networks:
       - app-network
 
   web_apiteknik:
-    build: ./php8
+    build: ./apidock
     container_name: web-apiteknik
     stdin_open: true
     tty: true
     ports:
       - "8001:80"
     volumes:
-      - ./apiteknik/public:/var/www/html
+      - ./apiteknik:/var/www/html
     depends_on:
       - mysql8
     networks:
@@ -36,7 +36,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - "3308:3306"
+      - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql/db:/var/lib/mysql
