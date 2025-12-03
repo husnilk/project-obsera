@@ -1,5 +1,5 @@
 # Use the official PHP image with Apache
-FROM php:8.3-apache
+FROM php:8.2-apache
 
 # 1. Install system dependencies required for GD and Composer
 # zip, unzip, and git are often needed by Composer
